@@ -336,14 +336,15 @@
     }
 
     btnIos.addEventListener('click', openMainScreen);
-    btnAndroid.addEventListener('click", openMainScreen);
+    // Aici a fost eroarea de ghilimea: am corectat-o în 'click'
+    btnAndroid.addEventListener('click', openMainScreen);
 
-    if (localStorage.setItem && localStorage.getItem('deviceSelected') === 'true') {
+    if (localStorage.getItem('deviceSelected') === 'true') {
       gate.classList.add('hidden');
       document.body.classList.remove('locked');
     }
 
-    // Păstrează parametrii de tracking
+    // Păstrează parametrii de tracking pentru butonul de jos
     document.addEventListener("DOMContentLoaded", function () {
       const search = window.location.search;
       if (!search) return;
