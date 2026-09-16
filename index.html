@@ -91,12 +91,18 @@
     }
 
     .gate-content h2 {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
+      line-height: 1.4;
       margin-bottom: 30px;
       color: #fff;
+    }
+
+    .gate-content h2 span {
+      color: var(--neon);
+      font-size: 18px;
     }
 
     .gate-btn {
@@ -341,15 +347,15 @@
   <!-- ÉCRAN DE SÉLECTION DU TÉLÉPHONE -->
   <div class="device-gate" id="deviceGate">
     <div class="gate-content">
-      <div class="gate-icon">🕹️</div>
-      <h2>Configure ton<br>profil joueur</h2>
+      <div class="gate-icon">📱</div>
+      <h2>Quel type d'appareil utilises-tu ?<br><span>Android ou iOS ?</span></h2>
       
       <button class="gate-btn" id="iosBtn">
-        <span style="font-size: 22px;">🍏</span> Je joue sur iPhone
+        <span style="font-size: 22px;">🍏</span> iOS
       </button>
       
       <button class="gate-btn" id="androidBtn">
-        <span style="font-size: 22px;">🤖</span> Je joue sur Android
+        <span style="font-size: 22px;">🤖</span> Android
       </button>
     </div>
   </div>
