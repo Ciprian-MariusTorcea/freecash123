@@ -361,60 +361,12 @@
       box-shadow: 0 0 20px rgba(57,255,136,.22);
     }
 
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .mini-step {
-      min-height: 180px;
-      padding: 18px 10px 12px;
-      border-radius: 18px;
-      text-align: center;
-      background: rgba(255,255,255,.035);
-      border: 1px solid rgba(255,255,255,.10);
-    }
-
-    .mini-step .big {
-      display: block;
-      color: var(--green);
-      font-size: 34px;
-      line-height: 1;
-      font-weight: 1000;
-      margin-bottom: 10px;
-    }
-
-    .mini-step .icon {
-      display: block;
-      color: var(--green);
-      font-size: 32px;
-      line-height: 1;
-      margin-bottom: 16px;
-    }
-
-    .mini-step strong {
-      display: block;
-      color: #fff;
-      font-size: 15px;
-      line-height: 1.12;
-      letter-spacing: -.035em;
-      margin-bottom: 10px;
-    }
-
-    .mini-step p {
-      color: #b8c7bd;
-      font-size: 12px;
-      line-height: 1.35;
-      font-weight: 700;
-    }
-
     .cashout {
       display: flex;
       justify-content: center;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 16px;
+      margin-top: 24px;
     }
 
     .cashout span {
@@ -492,14 +444,6 @@
       .chips {
         grid-template-columns: 1fr;
       }
-
-      .steps-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .mini-step {
-        min-height: auto;
-      }
     }
   </style>
 </head>
@@ -562,31 +506,6 @@
         <h2>Débloque des <span>gains plus élevés</span></h2>
         <p>Joue à 2 ou 3 premiers jeux pour débloquer les meilleures offres et gagner encore plus.</p>
         <div class="rainbow"></div>
-      </div>
-    </section>
-
-    <div class="section-title">Comment ça marche</div>
-
-    <section class="steps-grid">
-      <div class="mini-step">
-        <span class="big">1</span>
-        <span class="icon">🎮</span>
-        <strong>Choisis un jeu</strong>
-        <p>Sélectionne un jeu disponible dans ton tableau de bord.</p>
-      </div>
-
-      <div class="mini-step">
-        <span class="big">2</span>
-        <span class="icon">✓</span>
-        <strong>Joue et valide</strong>
-        <p>Atteins les objectifs pour débloquer tes gains.</p>
-      </div>
-
-      <div class="mini-step">
-        <span class="big">3</span>
-        <span class="icon">$</span>
-        <strong>Encaisse ton cash</strong>
-        <p>Retire tes récompenses rapidement selon ton choix.</p>
       </div>
     </section>
 
