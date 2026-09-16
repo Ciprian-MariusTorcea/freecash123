@@ -3,463 +3,428 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Freecash</title>
+  <title>Freecash | Valorise ton temps</title>
   <link rel="icon" href="data:," />
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-font-smoothing: antialiased;
     }
 
     :root {
-      --bg-dark: #040605;
-      --surface: #0a120d;
-      --border: #14291c;
-      --neon: #00ff66;
-      --neon-dim: rgba(0, 255, 102, 0.2);
-      --text: #ffffff;
-      --text-muted: #839e8c;
-      --font: 'Montserrat', -apple-system, sans-serif;
+      --bg-color: #120A1F; /* Mov foarte închis */
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-main: #FFFFFF;
+      --text-sec: #A39BB3;
+      --gradient-accent: linear-gradient(135deg, #FF3366 0%, #FF9933 100%);
+      --font-main: 'Poppins', sans-serif;
     }
 
     body {
       min-height: 100vh;
-      font-family: var(--font);
-      color: var(--text);
-      background-color: var(--bg-dark);
+      font-family: var(--font-main);
+      color: var(--text-main);
+      background-color: var(--bg-color);
       background-image: 
-        radial-gradient(circle at 50% 0%, rgba(0, 255, 102, 0.15) 0%, transparent 50%),
-        linear-gradient(0deg, var(--bg-dark) 0%, #060b08 100%);
+        radial-gradient(circle at 15% 50%, rgba(255, 51, 102, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(255, 153, 51, 0.15), transparent 25%);
       overflow-x: hidden;
     }
 
-    body.lock {
+    body.locked {
       overflow: hidden;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-      -webkit-tap-highlight-color: transparent;
-    }
+    a { text-decoration: none; }
+    button { border: none; font-family: inherit; }
 
-    button {
-      -webkit-tap-highlight-color: transparent;
-      font-family: var(--font);
-    }
-
-    /* --- ÉCRAN DE DÉMARRAGE (GATE) --- */
-    .device-gate {
+    /* =========================================
+       PAGE 1 : OVERLAY SÉLECTION APPAREIL
+       ========================================= */
+    .device-screen {
       position: fixed;
-      inset: 0;
-      z-index: 999;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(18, 10, 31, 0.95);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      z-index: 1000;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      padding: 20px;
-      background: #000000;
-      transition: opacity 0.4s ease, visibility 0.4s;
+      align-items: center;
+      padding: 24px;
+      transition: opacity 0.5s ease, visibility 0.5s;
     }
 
-    .device-gate.hide {
+    .device-screen.hidden {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
     }
 
-    .gate-content {
+    .device-box {
+      width: 100%;
+      max-width: 360px;
       text-align: center;
+    }
+
+    .device-box h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .device-box p {
+      color: var(--text-sec);
+      font-size: 15px;
+      margin-bottom: 32px;
+    }
+
+    .choice-btn {
       width: 100%;
-      max-width: 380px;
-    }
-
-    .gate-icon {
-      font-size: 50px;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 0 15px var(--neon));
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .gate-content h2 {
-      font-size: 22px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      line-height: 1.4;
-      margin-bottom: 30px;
-      color: #fff;
-    }
-
-    .gate-content h2 span {
-      color: var(--neon);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 18px 24px;
+      border-radius: 16px;
       font-size: 18px;
-    }
-
-    .gate-btn {
-      width: 100%;
-      padding: 18px;
-      margin-bottom: 15px;
-      border-radius: 12px;
-      border: 2px solid var(--border);
-      background: var(--surface);
-      color: #fff;
-      font-size: 16px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      transition: all 0.2s;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
     }
 
-    .gate-btn:active {
-      transform: scale(0.96);
-      border-color: var(--neon);
-      box-shadow: 0 0 20px var(--neon-dim);
+    .choice-btn:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
-    /* --- PAGE PRINCIPALE --- */
-    .container {
-      width: 100%;
-      max-width: 480px;
+    .choice-btn .emoji { font-size: 24px; }
+
+    /* =========================================
+       PAGE 2 : CONTENU PRINCIPAL
+       ========================================= */
+    .main-wrap {
+      max-width: 500px;
       margin: 0 auto;
-      padding: 20px 20px 120px;
+      padding: 24px 24px 130px 24px; /* Padding bottom pt butonul sticky */
     }
 
-    header {
+    /* HEADER / LOGO */
+    .top-bar {
       display: flex;
       justify-content: center;
       margin-bottom: 40px;
+      padding-top: 10px;
     }
 
-    .logo-badge {
+    .brand-pill {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      background: rgba(0,0,0,0.3);
       padding: 8px 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border-radius: 50px;
+      border: 1px solid var(--card-border);
     }
 
-    .logo-badge img {
-      width: 28px;
-      height: 28px;
+    .brand-pill img {
+      width: 26px;
+      height: 26px;
       border-radius: 6px;
     }
 
-    .logo-badge span {
-      font-weight: 900;
-      font-size: 18px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--text);
-    }
-
-    .hero-section {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .status-pill {
-      display: inline-block;
-      padding: 6px 14px;
-      background: rgba(0, 255, 102, 0.1);
-      border: 1px solid rgba(0, 255, 102, 0.3);
-      color: var(--neon);
-      border-radius: 20px;
-      font-size: 12px;
+    .brand-pill span {
       font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 2.6rem;
-      font-style: italic;
-      font-weight: 900;
-      line-height: 1.05;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
-    }
-
-    h1 span {
-      color: var(--neon);
-      display: block;
-      text-shadow: 0 0 20px var(--neon-dim);
-    }
-
-    .subtitle {
       font-size: 16px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      font-weight: 500;
-      margin-bottom: 30px;
-      padding: 0 10px;
-    }
-
-    .gaming-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-bottom: 40px;
-    }
-
-    .g-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .g-card::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: var(--neon);
-      box-shadow: 0 0 10px var(--neon);
-    }
-
-    .g-icon {
-      font-size: 28px;
-      background: rgba(0, 255, 102, 0.05);
-      width: 54px;
-      height: 54px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 12px;
-      border: 1px solid rgba(0, 255, 102, 0.2);
-    }
-
-    .g-text h3 {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .g-text p {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .highlight-box {
-      background: linear-gradient(145deg, #112217 0%, #0a120d 100%);
-      border: 1px solid var(--neon);
-      padding: 24px;
-      border-radius: 16px;
+    /* HERO SECTION */
+    .hero {
       text-align: center;
-      box-shadow: 0 10px 40px rgba(0, 255, 102, 0.1);
+      margin-bottom: 45px;
     }
 
-    .highlight-box h3 {
-      font-size: 20px;
-      font-weight: 900;
-      margin-bottom: 10px;
-      color: var(--neon);
-      text-transform: uppercase;
+    .badge {
+      display: inline-block;
+      background: rgba(255, 51, 102, 0.15);
+      color: #FF6680;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 20px;
     }
 
-    .highlight-box p {
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+    }
+
+    .hero p {
+      color: var(--text-sec);
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 0 10px;
+    }
+
+    /* STEPS / FEATURES */
+    .steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .step-icon {
+      flex-shrink: 0;
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .step-text h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step-text p {
       font-size: 14px;
-      color: #fff;
+      color: var(--text-sec);
       line-height: 1.5;
     }
 
-    /* --- CTA FIXE EN BAS --- */
-    .cta-wrapper {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 15px 20px 25px;
-      background: linear-gradient(0deg, #000000 60%, transparent 100%);
-      z-index: 50;
-      display: flex;
-      justify-content: center;
+    /* PRO TIP BOX */
+    .tip-box {
+      background: rgba(255, 153, 51, 0.08);
+      border: 1px dashed rgba(255, 153, 51, 0.4);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
     }
 
-    .btn-primary {
+    .tip-box h4 {
+      color: #FF9933;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .tip-box p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.9);
+      line-height: 1.5;
+    }
+
+    /* =========================================
+       CTA FLOTTANT (STICKY BOTTOM)
+       ========================================= */
+    .sticky-bottom {
+      position: fixed;
+      bottom: 0; left: 0; width: 100%;
+      padding: 15px 20px 25px;
+      background: linear-gradient(0deg, #090510 50%, transparent 100%);
+      display: flex;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .cta-btn {
+      width: 100%;
+      max-width: 460px;
+      background: var(--gradient-accent);
+      color: #fff;
+      padding: 16px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(255, 51, 102, 0.4);
+      transition: transform 0.2s;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 440px;
-      background: var(--neon);
-      color: #000;
-      padding: 16px;
-      border-radius: 14px;
-      font-weight: 900;
+    }
+
+    .cta-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 4px 15px rgba(255, 51, 102, 0.4);
+    }
+
+    .cta-btn span.main-txt {
       font-size: 17px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: 0 10px 25px rgba(0, 255, 102, 0.3), inset 0 -3px 0 rgba(0,0,0,0.2);
-      transition: transform 0.2s;
+      font-weight: 800;
+      letter-spacing: 0.3px;
     }
 
-    .btn-primary:active {
-      transform: translateY(2px);
-      box-shadow: 0 5px 15px rgba(0, 255, 102, 0.3), inset 0 0px 0 rgba(0,0,0,0.2);
-    }
-
-    .btn-primary small {
-      display: block;
-      font-size: 11px;
-      font-weight: 700;
-      opacity: 0.8;
+    .cta-btn span.sub-txt {
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0.9;
       margin-top: 4px;
-      letter-spacing: 0;
-      text-transform: none;
     }
+
   </style>
 </head>
 
-<body class="lock">
+<body class="locked">
 
-  <!-- ÉCRAN DE SÉLECTION DU TÉLÉPHONE -->
-  <div class="device-gate" id="deviceGate">
-    <div class="gate-content">
-      <div class="gate-icon">📱</div>
-      <h2>Quel type d'appareil utilises-tu ?<br><span>Android ou iOS ?</span></h2>
+  <!-- PAGE 1 : OVERLAY SÉLECTION -->
+  <div class="device-screen" id="gateOverlay">
+    <div class="device-box">
+      <h2>Dis-moi sur quoi tu es 👀</h2>
+      <p>Pour te montrer les applis compatibles</p>
       
-      <button class="gate-btn" id="iosBtn">
-        <span style="font-size: 22px;">🍏</span> iOS
+      <button class="choice-btn" id="btnIos">
+        <span class="emoji">🍎</span> Je suis sur iPhone
       </button>
       
-      <button class="gate-btn" id="androidBtn">
-        <span style="font-size: 22px;">🤖</span> Android
+      <button class="choice-btn" id="btnAndroid">
+        <span class="emoji">🤖</span> Je suis sur Android
       </button>
     </div>
   </div>
 
-  <!-- CONTENU PRINCIPAL -->
-  <main class="container">
-    <header>
-      <div class="logo-badge">
+  <!-- PAGE 2 : CONTENU PRINCIPAL -->
+  <main class="main-wrap">
+    
+    <header class="top-bar">
+      <div class="brand-pill">
+        <!-- Am lăsat același logo -->
         <img src="assets/freecash-logo.webp" alt="Freecash" onerror="this.style.display='none'">
         <span>Freecash</span>
       </div>
     </header>
 
-    <section class="hero-section">
-      <div class="status-pill">🔥 Missions Disponibles</div>
-      
+    <section class="hero">
+      <div class="badge">🔥 Astuce du moment</div>
       <h1>
-        Tes parties
-        <span>Valent de l'or</span>
+        Ton temps d'écran
+        <span>a enfin de la valeur.</span>
       </h1>
-      
-      <p class="subtitle">
-        Ton talent mérite d'être récompensé. Remplis des missions sur tes jeux préférés et débloque des cartes cadeaux exclusives.
-      </p>
+      <p>Arrête de scroller dans le vide. Teste des nouveautés, valide des niveaux et récupère des récompenses réelles directement depuis ton canapé.</p>
     </section>
 
-    <div class="gaming-cards">
-      <div class="g-card">
-        <div class="g-icon">🎯</div>
-        <div class="g-text">
-          <h3>Choisis ta quête</h3>
-          <p>Explore une bibliothèque de jeux top tendance et sélectionne ta prochaine aventure.</p>
+    <section class="steps-container">
+      
+      <div class="step-card">
+        <div class="step-icon">🎮</div>
+        <div class="step-text">
+          <h3>Télécharge & Découvre</h3>
+          <p>Explore le catalogue et installe des pépites avant tout le monde.</p>
         </div>
       </div>
 
-      <div class="g-card">
-        <div class="g-icon">⚡</div>
-        <div class="g-text">
-          <h3>Passe les niveaux</h3>
-          <p>Complète les objectifs in-game, bats des boss et accumule un maximum de points.</p>
+      <div class="step-card">
+        <div class="step-icon">🚀</div>
+        <div class="step-text">
+          <h3>Fais grimper la jauge</h3>
+          <p>Plus tu passes de temps et de niveaux, plus ton solde augmente.</p>
         </div>
       </div>
 
-      <div class="g-card">
-        <div class="g-icon">🏆</div>
-        <div class="g-text">
-          <h3>Récupère ton butin</h3>
-          <p>Transforme tes victoires en récompenses réelles à retirer instantanément.</p>
+      <div class="step-card">
+        <div class="step-icon">💳</div>
+        <div class="step-text">
+          <h3>Encaisse ton solde</h3>
+          <p>Transfère tes gains instantanément via tes applications préférées.</p>
         </div>
       </div>
-    </div>
 
-    <div class="highlight-box">
-      <h3>Astuce de Pro 💡</h3>
-      <p>Termine 2 petits jeux dès ton inscription pour débloquer le rang VIP et accéder aux plus grosses récompenses du moment.</p>
-    </div>
+    </section>
+
+    <section class="tip-box">
+      <h4>Le Hack Ultime 💡</h4>
+      <p>Lance au moins 2 petites missions dès ton arrivée. Ça débloque ton profil et te donne accès aux offres les plus rentables du site.</p>
+    </section>
 
   </main>
 
-  <!-- BOUTON D'ACTION FLOTTANT -->
-  <div class="cta-wrapper">
-    <a
-      class="btn-primary"
-      href="https://taprkr.com/r/eyJ0IjoiZnJlZWNhc2gtY3BpIiwidGlkIjoiNzdjOGZlYjc5ODc4NDBjNTJlZDYiLCJ0cyI6MTc4OTU4Mzg3NDM4NH0"
-      target="_blank"
+  <!-- BOUTON FIXE EN BAS (CTA) -->
+  <div class="sticky-bottom">
+    <a 
+      href="https://taprkr.com/r/eyJ0IjoiZnJlZWNhc2gtY3BpIiwidGlkIjoiNzdjOGZlYjc5ODc4NDBjNTJlZDYiLCJ0cyI6MTc4OTU4NjE4NDIyNn0" 
+      class="cta-btn" 
+      target="_blank" 
       rel="noopener noreferrer"
     >
-      Lancer ma partie & Réclamer Bonus
-      <small>Inscription 100% gratuite • Récompenses immédiates</small>
+      <span class="main-txt">Je lance ma 1ère mission & j'encaisse</span>
+      <span class="sub-txt">Inscription 100% gratuite • Retrait immédiat</span>
     </a>
   </div>
 
   <script>
-    // Gestion de l'écran de sélection (Device Gate)
-    const deviceGate = document.getElementById("deviceGate");
-    const iosBtn = document.getElementById("iosBtn");
-    const androidBtn = document.getElementById("androidBtn");
+    // Logica pentru ecranul de start
+    const gateOverlay = document.getElementById("gateOverlay");
+    const btnIos = document.getElementById("btnIos");
+    const btnAndroid = document.getElementById("btnAndroid");
 
-    function unlockPage() {
-      deviceGate.classList.add("hide");
-      document.body.classList.remove("lock");
-      localStorage.setItem("gamerProfileSet", "true");
+    function removeGate() {
+      gateOverlay.classList.add("hidden");
+      document.body.classList.remove("locked");
+      localStorage.setItem("userDevicePicked", "true");
     }
 
-    iosBtn.addEventListener("click", unlockPage);
-    androidBtn.addEventListener("click", unlockPage);
+    btnIos.addEventListener("click", removeGate);
+    btnAndroid.addEventListener("click", removeGate);
 
-    // Vérifier si l'utilisateur a déjà passé l'écran
-    if (localStorage.getItem("gamerProfileSet") === "true") {
-      deviceGate.classList.add("hide");
-      document.body.classList.remove("lock");
+    // Verificăm dacă userul a mai fost pe pagină (să nu-i apară ecranul iar)
+    if (localStorage.getItem("userDevicePicked") === "true") {
+      gateOverlay.classList.add("hidden");
+      document.body.classList.remove("locked");
     }
 
-    // Gestion du transfert des paramètres d'URL (Tracking)
+    // Păstrarea parametrilor UTM/Tracking din URL pe butonul de ieșire
     document.addEventListener("DOMContentLoaded", function () {
-      const query = window.location.search;
-      if (!query) return;
+      const urlParams = window.location.search;
+      if (!urlParams) return;
 
-      document.querySelectorAll("a[href^='http']").forEach(function (link) {
-        const href = link.getAttribute("href");
-        if (href.includes("?")) {
-          link.setAttribute("href", href + query.replace("?", "&"));
+      const links = document.querySelectorAll("a[href^='http']");
+      links.forEach(link => {
+        let currentHref = link.getAttribute("href");
+        if (currentHref.includes("?")) {
+          link.setAttribute("href", currentHref + urlParams.replace("?", "&"));
         } else {
-          link.setAttribute("href", href + query);
+          link.setAttribute("href", currentHref + urlParams);
         }
       });
     });
