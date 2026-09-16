@@ -65,7 +65,7 @@
       display: grid;
       place-items: center;
       padding: 22px;
-      background: #000000; /* Fundal complet negru */
+      background: #000000;
       transition: .25s ease;
     }
 
@@ -117,7 +117,7 @@
       font-weight: 900;
       cursor: pointer;
       color: #000000;
-      background: #3ddc84; /* Verde specific Android */
+      background: #3ddc84;
       box-shadow: 0 8px 20px rgba(61, 220, 132, 0.2);
     }
     /* --------------------------------- */
@@ -509,10 +509,10 @@
   <div class="device-gate" id="deviceGate">
     <div class="device-box">
       <div style="font-size: 60px; margin-bottom: 15px;">📱</div>
-      <h2>Ce fel de dispozitiv folosești? 🧐</h2>
+      <h2>T'as quoi comme téléphone ? 🧐</h2>
 
       <div class="device-actions">
-        <button class="btn-ios" id="iosBtn">iOS 🍏</button>
+        <button class="btn-ios" id="iosBtn">iPhone 🍏</button>
         <button class="btn-android" id="androidBtn">Android 🤖</button>
       </div>
     </div>
@@ -629,7 +629,6 @@
     const iosBtn = document.getElementById("iosBtn");
     const androidBtn = document.getElementById("androidBtn");
 
-    // Funcția care ascunde pagina de verificare indiferent de butonul apăsat
     function handleDeviceSelection() {
       deviceGate.classList.add("hide");
       document.body.classList.remove("lock");
