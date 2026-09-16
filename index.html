@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Freecash</title>
+  <title>Freecash - Récompenses Gaming</title>
   <link rel="icon" href="data:," />
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&display=swap');
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -14,32 +16,24 @@
     }
 
     :root {
-      --bg: #030704;
-      --card: #0b1710;
-      --card2: #101f16;
-      --green: #39ff88;
-      --green2: #19c762;
-      --text: #f5fff7;
-      --muted: #a7b8ab;
-      --yellow: #ffd56a;
-      --red: #ff5c6c;
-      --line: rgba(255,255,255,.10);
-      --shadow: 0 24px 70px rgba(0,0,0,.55);
-      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-    }
-
-    html {
-      scroll-behavior: smooth;
+      --bg-dark: #040605;
+      --surface: #0a120d;
+      --border: #14291c;
+      --neon: #00ff66;
+      --neon-dim: rgba(0, 255, 102, 0.2);
+      --text: #ffffff;
+      --text-muted: #839e8c;
+      --font: 'Montserrat', -apple-system, sans-serif;
     }
 
     body {
       min-height: 100vh;
       font-family: var(--font);
       color: var(--text);
-      background:
-        radial-gradient(circle at 50% -10%, rgba(57,255,136,.35), transparent 35%),
-        radial-gradient(circle at 100% 25%, rgba(255,213,106,.16), transparent 28%),
-        linear-gradient(180deg, #06140b 0%, #030704 65%, #020302 100%);
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 255, 102, 0.15) 0%, transparent 50%),
+        linear-gradient(0deg, var(--bg-dark) 0%, #060b08 100%);
       overflow-x: hidden;
     }
 
@@ -50,501 +44,412 @@
     a {
       color: inherit;
       text-decoration: none;
-    }
-
-    button,
-    a {
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* --- PAGE DE SELECTION DISPOSITIF --- */
+    button {
+      -webkit-tap-highlight-color: transparent;
+      font-family: var(--font);
+    }
+
+    /* --- ÉCRAN DE DÉMARRAGE (GATE) --- */
     .device-gate {
       position: fixed;
       inset: 0;
       z-index: 999;
-      display: grid;
-      place-items: center;
-      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
       background: #000000;
-      transition: .25s ease;
+      transition: opacity 0.4s ease, visibility 0.4s;
     }
 
     .device-gate.hide {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-      transform: scale(1.03);
     }
 
-    .device-box {
-      width: 100%;
-      max-width: 360px;
-      padding: 26px 20px;
+    .gate-content {
       text-align: center;
-      background: #000000;
-    }
-
-    .device-box h2 {
-      font-size: 32px;
-      line-height: 1.1;
-      letter-spacing: -.03em;
-      margin-bottom: 25px;
-      color: #ffffff;
-    }
-
-    .device-actions {
-      display: grid;
-      gap: 15px;
-    }
-
-    .btn-ios {
-      border: 0;
-      min-height: 56px;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: 900;
-      cursor: pointer;
-      color: #000000;
-      background: #ffffff;
-      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
-    }
-
-    .btn-android {
-      border: 0;
-      min-height: 56px;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: 900;
-      cursor: pointer;
-      color: #000000;
-      background: #3ddc84;
-      box-shadow: 0 8px 20px rgba(61, 220, 132, 0.2);
-    }
-    /* --------------------------------- */
-
-    .page {
       width: 100%;
-      max-width: 430px;
-      margin: 0 auto;
-      min-height: 100vh;
-      padding: 14px 14px 112px;
+      max-width: 380px;
     }
 
-    .top {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 18px;
-      padding-top: 4px;
+    .gate-icon {
+      font-size: 50px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 15px var(--neon));
+      animation: float 3s ease-in-out infinite;
     }
 
-    .brand-combo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 9px 16px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 12px 34px rgba(0,0,0,.28);
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
-    .brand-combo img {
-      width: 34px;
-      height: 34px;
+    .gate-content h2 {
+      font-size: 24px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 30px;
+      color: #fff;
+    }
+
+    .gate-btn {
+      width: 100%;
+      padding: 18px;
+      margin-bottom: 15px;
       border-radius: 12px;
-      object-fit: cover;
-      background: rgba(255,255,255,.08);
-    }
-
-    .brand-combo span {
-      color: var(--green);
-      font-size: 18px;
-      font-weight: 1000;
-      line-height: 1;
-    }
-
-    .hero {
-      min-height: 72vh;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
       display: flex;
-      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      padding: 4px 0 20px;
+      gap: 12px;
+      transition: all 0.2s;
     }
 
-    .payout-badge {
-      width: fit-content;
-      margin: 0 auto 24px;
-      padding: 10px 15px;
-      border-radius: 999px;
-      color: #baffd0;
-      background: rgba(57,255,136,.12);
-      border: 1px solid rgba(57,255,136,.34);
-      box-shadow: inset 0 0 20px rgba(57,255,136,.05);
-      font-size: 14px;
-      font-weight: 1000;
+    .gate-btn:active {
+      transform: scale(0.96);
+      border-color: var(--neon);
+      box-shadow: 0 0 20px var(--neon-dim);
+    }
+
+    /* --- PAGE PRINCIPALE --- */
+    .container {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 20px 120px;
+    }
+
+    header {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .logo-badge img {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+    }
+
+    .logo-badge span {
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(0, 255, 102, 0.1);
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      color: var(--neon);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
     }
 
     h1 {
-      text-align: center;
-      font-size: clamp(38px, 12vw, 54px);
-      line-height: .98;
-      letter-spacing: -.065em;
-      font-weight: 1000;
-      margin-bottom: 18px;
+      font-size: 2.6rem;
+      font-style: italic;
+      font-weight: 900;
+      line-height: 1.05;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
     }
 
     h1 span {
-      color: var(--green);
-      text-shadow: 0 0 30px rgba(57,255,136,.25);
-    }
-
-    .mini-text {
-      max-width: 335px;
-      margin: 0 auto 22px;
-      text-align: center;
-      color: #dbe6de;
-      font-size: 17px;
-      line-height: 1.45;
-      font-weight: 750;
-    }
-
-    .chips {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin: 0 auto 26px;
-      max-width: 350px;
-    }
-
-    .chip {
-      min-height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      color: #f4fff7;
-      background: rgba(255,255,255,.055);
-      border: 1px solid rgba(255,255,255,.12);
-      font-size: 13px;
-      font-weight: 900;
-      text-align: center;
-    }
-
-    .section-title {
-      margin: 22px 0 12px;
-      color: #eee9f6;
-      font-size: 13px;
-      font-weight: 1000;
-      letter-spacing: .24em;
-      text-transform: uppercase;
-    }
-
-    .offer-card {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-height: 112px;
-      padding: 16px;
-      border-radius: 28px;
-      background: rgba(255,255,255,.045);
-      border: 1px solid rgba(255,255,255,.11);
-      box-shadow: 0 18px 48px rgba(0,0,0,.32);
-    }
-
-    .play {
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      background: rgba(57,255,136,.12);
-      border: 4px solid var(--green);
-      color: #fff;
-      font-size: 20px;
-      box-shadow: 0 0 25px rgba(57,255,136,.26);
-    }
-
-    .offer-card strong {
+      color: var(--neon);
       display: block;
-      max-width: 205px;
-      margin-bottom: 4px;
-      font-size: 18px;
-      line-height: 1.12;
-      letter-spacing: -.03em;
+      text-shadow: 0 0 20px var(--neon-dim);
     }
 
-    .offer-card span {
-      color: #dbcfe0;
-      font-size: 13px;
-      line-height: 1.35;
-      font-weight: 760;
-    }
-
-    .hot {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      padding: 7px 11px;
-      border-radius: 999px;
-      background: var(--yellow);
-      color: #3a2500;
-      font-size: 11px;
-      font-weight: 1000;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-    }
-
-    .rating {
-      position: absolute;
-      right: 20px;
-      bottom: 17px;
-      color: #fff;
-      font-size: 13px;
-      font-weight: 1000;
-    }
-
-    .rating i {
-      color: var(--yellow);
-      font-style: normal;
-    }
-
-    .tip-card {
-      margin-top: 18px;
-      padding: 24px 22px 19px;
-      border-radius: 28px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025)),
-        radial-gradient(circle at top left, rgba(57,255,136,.12), transparent 34%);
-      border: 1px solid rgba(156,255,188,.22);
-      overflow: hidden;
-      box-shadow: 0 18px 48px rgba(0,0,0,.30);
-    }
-
-    .tip-label {
-      color: var(--yellow);
-      font-size: 14px;
-      font-weight: 1000;
-      text-transform: uppercase;
-      letter-spacing: -.02em;
-      margin-bottom: 18px;
-    }
-
-    .tip-card h2 {
-      font-size: 29px;
-      line-height: 1.08;
-      letter-spacing: -.055em;
-      margin-bottom: 15px;
-    }
-
-    .tip-card h2 span {
-      color: var(--yellow);
-    }
-
-    .tip-card p {
-      color: #eadff0;
-      font-size: 15px;
-      line-height: 1.45;
-      font-weight: 760;
-      margin-bottom: 18px;
-    }
-
-    .rainbow {
-      height: 6px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #39ff88, #e8ff3f, #ffbb38, #ff6b4a);
-      box-shadow: 0 0 20px rgba(57,255,136,.22);
-    }
-
-    .note {
-      margin-top: 12px;
-      color: #8fa596;
-      text-align: center;
-      font-size: 11px;
-      line-height: 1.45;
-    }
-
-    .sticky {
-      position: fixed;
-      left: 50%;
-      bottom: max(12px, env(safe-area-inset-bottom));
-      transform: translateX(-50%);
-      width: min(430px, calc(100% - 24px));
-      z-index: 20;
-      padding: 10px;
-      border-radius: 26px;
-      background: rgba(3,7,4,.78);
-      border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(14px);
-      box-shadow: 0 18px 55px rgba(0,0,0,.55);
-    }
-
-    .cta {
-      min-height: 64px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      color: #031108;
-      background: linear-gradient(180deg, #67ffa3, #20d66b);
-      box-shadow: 0 16px 34px rgba(32,214,107,.28);
-      font-weight: 1000;
-      font-size: 18px;
-      letter-spacing: -.035em;
-      text-align: center;
-    }
-
-    .cta small {
-      display: block;
-      font-size: 11px;
-      font-weight: 850;
-      opacity: .72;
-      margin-top: 2px;
-      letter-spacing: 0;
-    }
-
-    footer {
-      padding: 28px 0 8px;
-      text-align: center;
-      color: #718477;
-      font-size: 11px;
+    .subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
       line-height: 1.6;
+      font-weight: 500;
+      margin-bottom: 30px;
+      padding: 0 10px;
     }
 
-    footer a {
-      margin: 0 7px;
-      color: #7f9686;
+    .gaming-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 40px;
     }
 
-    @media (max-width: 370px) {
-      .chips {
-        grid-template-columns: 1fr;
-      }
+    .g-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .g-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--neon);
+      box-shadow: 0 0 10px var(--neon);
+    }
+
+    .g-icon {
+      font-size: 28px;
+      background: rgba(0, 255, 102, 0.05);
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 255, 102, 0.2);
+    }
+
+    .g-text h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .g-text p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .highlight-box {
+      background: linear-gradient(145deg, #112217 0%, #0a120d 100%);
+      border: 1px solid var(--neon);
+      padding: 24px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 255, 102, 0.1);
+    }
+
+    .highlight-box h3 {
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: var(--neon);
+      text-transform: uppercase;
+    }
+
+    .highlight-box p {
+      font-size: 14px;
+      color: #fff;
+      line-height: 1.5;
+    }
+
+    /* --- CTA FIXE EN BAS --- */
+    .cta-wrapper {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px 20px 25px;
+      background: linear-gradient(0deg, #000000 60%, transparent 100%);
+      z-index: 50;
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 440px;
+      background: var(--neon);
+      color: #000;
+      padding: 16px;
+      border-radius: 14px;
+      font-weight: 900;
+      font-size: 17px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 25px rgba(0, 255, 102, 0.3), inset 0 -3px 0 rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+
+    .btn-primary:active {
+      transform: translateY(2px);
+      box-shadow: 0 5px 15px rgba(0, 255, 102, 0.3), inset 0 0px 0 rgba(0,0,0,0.2);
+    }
+
+    .btn-primary small {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      opacity: 0.8;
+      margin-top: 4px;
+      letter-spacing: 0;
+      text-transform: none;
     }
   </style>
 </head>
 
 <body class="lock">
 
+  <!-- ÉCRAN DE SÉLECTION DU TÉLÉPHONE -->
   <div class="device-gate" id="deviceGate">
-    <div class="device-box">
-      <div style="font-size: 60px; margin-bottom: 15px;">📱</div>
-      <h2>T'as quoi comme téléphone ? 🧐</h2>
-
-      <div class="device-actions">
-        <button class="btn-ios" id="iosBtn">iPhone 🍏</button>
-        <button class="btn-android" id="androidBtn">Android 🤖</button>
-      </div>
+    <div class="gate-content">
+      <div class="gate-icon">🕹️</div>
+      <h2>Configure ton<br>profil joueur</h2>
+      
+      <button class="gate-btn" id="iosBtn">
+        <span style="font-size: 22px;">🍏</span> Je joue sur iPhone
+      </button>
+      
+      <button class="gate-btn" id="androidBtn">
+        <span style="font-size: 22px;">🤖</span> Je joue sur Android
+      </button>
     </div>
   </div>
 
-  <main class="page">
-
-    <header class="top">
-      <div class="brand-combo">
-        <img src="assets/freecash-logo.webp" alt="Freecash">
+  <!-- CONTENU PRINCIPAL -->
+  <main class="container">
+    <header>
+      <div class="logo-badge">
+        <img src="assets/freecash-logo.webp" alt="Freecash" onerror="this.style.display='none'">
         <span>Freecash</span>
       </div>
     </header>
 
-    <section class="hero">
-      <div class="payout-badge">✓ 50 000 000 €+ déjà payés</div>
-
+    <section class="hero-section">
+      <div class="status-pill">🔥 Missions Disponibles</div>
+      
       <h1>
-        Fais-toi payer pour <span>jouer à des jeux</span>
+        Tes parties
+        <span>Valent de l'or</span>
       </h1>
-
-      <p class="mini-text">
-        Transforme ton temps de jeu en vraies récompenses avec Freecash.
+      
+      <p class="subtitle">
+        Ton talent mérite d'être récompensé. Remplis des missions sur tes jeux préférés et débloque des cartes cadeaux exclusives.
       </p>
-
-      <div class="chips">
-        <div class="chip">⚡ Paiement rapide</div>
-        <div class="chip">🔒 Compte sécurisé</div>
-        <div class="chip">🎁 Bonus quotidiens</div>
-        <div class="chip">🎮 Jeux mobiles</div>
-      </div>
-
-      <div class="section-title">Offre recommandée</div>
-
-      <div class="offer-card">
-        <div class="play">▶</div>
-        <div>
-          <strong>Gagne en jouant</strong>
-          <span>Reçois des récompenses en testant des jeux et des applis.</span>
-        </div>
-        <div class="hot">Hot offer</div>
-        <div class="rating"><i>★</i> 5.0</div>
-      </div>
-
-      <div class="tip-card">
-        <div class="tip-label">⚡ Pro tip</div>
-        <h2>Débloque des <span>gains plus élevés</span></h2>
-        <p>Joue à 2 ou 3 premiers jeux pour débloquer les meilleures offres et gagner encore plus.</p>
-        <div class="rainbow"></div>
-      </div>
     </section>
 
-    <p class="note">
-      Les récompenses peuvent varier selon les jeux disponibles et le profil de l'utilisateur.
-    </p>
+    <div class="gaming-cards">
+      <div class="g-card">
+        <div class="g-icon">🎯</div>
+        <div class="g-text">
+          <h3>Choisis ta quête</h3>
+          <p>Explore une bibliothèque de jeux top tendance et sélectionne ta prochaine aventure.</p>
+        </div>
+      </div>
 
-    <footer>
-      <a href="#">Confidentialité</a>
-      <a href="#">Conditions</a>
-      <a href="#">Mentions légales</a><br>
-      © 2026
-    </footer>
+      <div class="g-card">
+        <div class="g-icon">⚡</div>
+        <div class="g-text">
+          <h3>Passe les niveaux</h3>
+          <p>Complète les objectifs in-game, bats des boss et accumule un maximum de points.</p>
+        </div>
+      </div>
+
+      <div class="g-card">
+        <div class="g-icon">🏆</div>
+        <div class="g-text">
+          <h3>Récupère ton butin</h3>
+          <p>Échange instantanément tes points contre de superbes récompenses dans la boutique.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <h3>Astuce de Pro 💡</h3>
+      <p>Termine 2 petits jeux dès ton inscription pour débloquer le rang VIP et accéder aux plus grosses récompenses du moment.</p>
+    </div>
 
   </main>
 
-  <div class="sticky">
+  <!-- BOUTON D'ACTION FLOTTANT -->
+  <div class="cta-wrapper">
     <a
-      class="cta"
-      href="https://taprkr.com/r/eyJ0IjoiZnJlZWNhc2gtY3BpIiwidGlkIjoiNzdjOGZlYjc5ODc4NDBjNTJlZDYiLCJ0cyI6MTc4OTU4MTQyOTM3Nn0"
+      class="btn-primary"
+      href="https://taprkr.com/r/eyJ0IjoiZnJlZWNhc2gtY3BpIiwidGlkIjoiNzdjOGZlYjc5ODc4NDBjNTJlZDYiLCJ0cyI6MTc4OTU4Mzg3NDM4NH0"
       target="_blank"
       rel="noopener noreferrer"
     >
-      <span>
-        Inscris-toi & reçois 8 € de bonus →
-        <small>Joue à des jeux et gagne du cash</small>
-      </span>
+      Lancer ma partie & Réclamer 8€
+      <small>Inscription 100% gratuite • Récompenses immédiates</small>
     </a>
   </div>
 
   <script>
+    // Gestion de l'écran de sélection (Device Gate)
     const deviceGate = document.getElementById("deviceGate");
     const iosBtn = document.getElementById("iosBtn");
     const androidBtn = document.getElementById("androidBtn");
 
-    function handleDeviceSelection() {
+    function unlockPage() {
       deviceGate.classList.add("hide");
       document.body.classList.remove("lock");
-      localStorage.setItem("deviceSelected", "yes");
+      localStorage.setItem("gamerProfileSet", "true");
     }
 
-    iosBtn.addEventListener("click", handleDeviceSelection);
-    androidBtn.addEventListener("click", handleDeviceSelection);
+    iosBtn.addEventListener("click", unlockPage);
+    androidBtn.addEventListener("click", unlockPage);
 
-    if (localStorage.getItem("deviceSelected") === "yes") {
+    // Vérifier si l'utilisateur a déjà passé l'écran
+    if (localStorage.getItem("gamerProfileSet") === "true") {
       deviceGate.classList.add("hide");
       document.body.classList.remove("lock");
     }
 
+    // Gestion du transfert des paramètres d'URL (Tracking)
     document.addEventListener("DOMContentLoaded", function () {
       const query = window.location.search;
-
       if (!query) return;
 
       document.querySelectorAll("a[href^='http']").forEach(function (link) {
         const href = link.getAttribute("href");
-
         if (href.includes("?")) {
           link.setAttribute("href", href + query.replace("?", "&"));
         } else {
