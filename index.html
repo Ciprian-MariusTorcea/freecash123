@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Freecash | Valorise ton temps</title>
+  <title>Freecash</title>
   <link rel="icon" href="data:," />
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
 
     * {
       box-sizing: border-box;
@@ -17,23 +17,24 @@
     }
 
     :root {
-      --bg-color: #120A1F; /* Mov foarte închis */
-      --card-bg: rgba(255, 255, 255, 0.05);
-      --card-border: rgba(255, 255, 255, 0.1);
+      --bg: #090B0E;
+      --card-bg: #12161F;
+      --border: #1E2638;
+      --accent: #00E676;
+      --accent-glow: rgba(0, 230, 118, 0.25);
       --text-main: #FFFFFF;
-      --text-sec: #A39BB3;
-      --gradient-accent: linear-gradient(135deg, #FF3366 0%, #FF9933 100%);
-      --font-main: 'Poppins', sans-serif;
+      --text-sub: #8F9CAE;
+      --font: 'Inter', -apple-system, sans-serif;
     }
 
     body {
       min-height: 100vh;
-      font-family: var(--font-main);
+      font-family: var(--font);
       color: var(--text-main);
-      background-color: var(--bg-color);
-      background-image: 
-        radial-gradient(circle at 15% 50%, rgba(255, 51, 102, 0.15), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(255, 153, 51, 0.15), transparent 25%);
+      background-color: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       overflow-x: hidden;
     }
 
@@ -45,387 +46,311 @@
     button { border: none; font-family: inherit; }
 
     /* =========================================
-       PAGE 1 : OVERLAY SÉLECTION APPAREIL
+       ECRAN 1 : SÉLECTION (OVERLAY)
        ========================================= */
-    .device-screen {
+    .gate-overlay {
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(18, 10, 31, 0.95);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      z-index: 1000;
+      inset: 0;
+      background: var(--bg);
+      z-index: 999;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      padding: 24px;
-      transition: opacity 0.5s ease, visibility 0.5s;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.3s ease, visibility 0.3s;
     }
 
-    .device-screen.hidden {
+    .gate-overlay.hidden {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
     }
 
-    .device-box {
+    .gate-box {
       width: 100%;
-      max-width: 360px;
+      max-width: 340px;
       text-align: center;
     }
 
-    .device-box h2 {
-      font-size: 24px;
+    .gate-box h2 {
+      font-size: 22px;
       font-weight: 800;
       margin-bottom: 8px;
-      line-height: 1.3;
     }
 
-    .device-box p {
-      color: var(--text-sec);
-      font-size: 15px;
-      margin-bottom: 32px;
+    .gate-box p {
+      color: var(--text-sub);
+      font-size: 14px;
+      margin-bottom: 24px;
     }
 
-    .choice-btn {
+    .btn-device {
       width: 100%;
+      padding: 16px;
+      margin-bottom: 12px;
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text-main);
-      padding: 18px 24px;
-      border-radius: 16px;
-      font-size: 18px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: #fff;
+      font-size: 16px;
       font-weight: 600;
-      margin-bottom: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       cursor: pointer;
-      transition: transform 0.2s, background 0.2s;
+      transition: transform 0.1s, border-color 0.2s;
     }
 
-    .choice-btn:active {
-      transform: scale(0.95);
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.3);
+    .btn-device:active {
+      transform: scale(0.97);
+      border-color: var(--accent);
     }
-
-    .choice-btn .emoji { font-size: 24px; }
 
     /* =========================================
-       PAGE 2 : CONTENU PRINCIPAL
+       ECRAN 2 : PAGE PRINCIPALE (ULTRA SIMPLE)
        ========================================= */
-    .main-wrap {
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 24px 24px 130px 24px; /* Padding bottom pt butonul sticky */
+    .app-container {
+      width: 100%;
+      max-width: 420px;
+      padding: 40px 20px 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
-    /* HEADER / LOGO */
-    .top-bar {
-      display: flex;
-      justify-content: center;
+    /* LOGO */
+    .brand-header {
       margin-bottom: 40px;
-      padding-top: 10px;
     }
 
-    .brand-pill {
-      display: flex;
+    .brand-logo {
+      display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: rgba(0,0,0,0.3);
-      padding: 8px 20px;
-      border-radius: 50px;
-      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 30px;
     }
 
-    .brand-pill img {
-      width: 26px;
-      height: 26px;
+    .brand-logo img {
+      width: 24px;
+      height: 24px;
       border-radius: 6px;
     }
 
-    .brand-pill span {
-      font-weight: 700;
+    .brand-logo span {
+      font-weight: 800;
       font-size: 16px;
       letter-spacing: 0.5px;
     }
 
-    /* HERO SECTION */
-    .hero {
-      text-align: center;
-      margin-bottom: 45px;
-    }
-
-    .badge {
+    /* TEXTE PRINCIPAL */
+    .badge-tag {
       display: inline-block;
-      background: rgba(255, 51, 102, 0.15);
-      color: #FF6680;
-      padding: 6px 16px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 20px;
+      color: var(--accent);
+      background: rgba(0, 230, 118, 0.1);
+      border: 1px solid rgba(0, 230, 118, 0.2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .hero h1 {
-      font-size: 38px;
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 20px;
+    .main-title {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 16px;
     }
 
-    .hero h1 span {
-      background: var(--gradient-accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: block;
+    .main-title span {
+      color: var(--accent);
     }
 
-    .hero p {
-      color: var(--text-sec);
-      font-size: 16px;
-      line-height: 1.6;
-      padding: 0 10px;
+    .main-description {
+      color: var(--text-sub);
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 35px;
     }
 
-    /* STEPS / FEATURES */
-    .steps-container {
+    /* 3 POINTS RAPIDES */
+    .simple-list {
+      width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      margin-bottom: 40px;
+      gap: 12px;
     }
 
-    .step-card {
+    .list-item {
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 20px;
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .step-icon {
-      flex-shrink: 0;
-      width: 50px;
-      height: 50px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      padding: 14px 18px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      border: 1px solid rgba(255,255,255,0.05);
+      gap: 12px;
+      text-align: left;
     }
 
-    .step-text h3 {
-      font-size: 17px;
-      font-weight: 700;
-      margin-bottom: 6px;
+    .list-item span.emoji {
+      font-size: 20px;
     }
 
-    .step-text p {
+    .list-item span.text {
       font-size: 14px;
-      color: var(--text-sec);
-      line-height: 1.5;
-    }
-
-    /* PRO TIP BOX */
-    .tip-box {
-      background: rgba(255, 153, 51, 0.08);
-      border: 1px dashed rgba(255, 153, 51, 0.4);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .tip-box h4 {
-      color: #FF9933;
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .tip-box p {
-      font-size: 14px;
-      color: rgba(255,255,255,0.9);
-      line-height: 1.5;
+      font-weight: 600;
+      color: #E2E8F0;
     }
 
     /* =========================================
-       CTA FLOTTANT (STICKY BOTTOM)
+       CTA FIXE JOS
        ========================================= */
-    .sticky-bottom {
+    .cta-fixed {
       position: fixed;
-      bottom: 0; left: 0; width: 100%;
-      padding: 15px 20px 25px;
-      background: linear-gradient(0deg, #090510 50%, transparent 100%);
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 16px 20px 24px;
+      background: linear-gradient(0deg, var(--bg) 70%, transparent 100%);
       display: flex;
       justify-content: center;
-      z-index: 100;
+      z-index: 50;
     }
 
-    .cta-btn {
+    .btn-main {
       width: 100%;
-      max-width: 460px;
-      background: var(--gradient-accent);
-      color: #fff;
+      max-width: 380px;
+      background: var(--accent);
+      color: #000;
       padding: 16px;
-      border-radius: 16px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 16px;
       text-align: center;
-      box-shadow: 0 8px 25px rgba(255, 51, 102, 0.4);
-      transition: transform 0.2s;
+      box-shadow: 0 0 20px var(--accent-glow);
+      transition: transform 0.1s;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    .cta-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 4px 15px rgba(255, 51, 102, 0.4);
+    .btn-main:active {
+      transform: scale(0.98);
     }
 
-    .cta-btn span.main-txt {
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: 0.3px;
-    }
-
-    .cta-btn span.sub-txt {
-      font-size: 12px;
+    .btn-main small {
+      font-size: 11px;
       font-weight: 600;
-      opacity: 0.9;
-      margin-top: 4px;
+      opacity: 0.8;
+      margin-top: 3px;
     }
-
   </style>
 </head>
 
 <body class="locked">
 
-  <!-- PAGE 1 : OVERLAY SÉLECTION -->
-  <div class="device-screen" id="gateOverlay">
-    <div class="device-box">
-      <h2>Dis-moi sur quoi tu es 👀</h2>
-      <p>Pour te montrer les applis compatibles</p>
+  <!-- ECRAN 1: ALEGERE APARAT -->
+  <div class="gate-overlay" id="gate">
+    <div class="gate-box">
+      <h2>Tu es sur quel appareil ? 📱</h2>
+      <p>Sélectionne pour afficher les offres compatibles</p>
       
-      <button class="choice-btn" id="btnIos">
-        <span class="emoji">🍎</span> Je suis sur iPhone
+      <button class="btn-device" id="btnIos">
+        <span>🍏</span> iPhone (iOS)
       </button>
       
-      <button class="choice-btn" id="btnAndroid">
-        <span class="emoji">🤖</span> Je suis sur Android
+      <button class="btn-device" id="btnAndroid">
+        <span>🤖</span> Android
       </button>
     </div>
   </div>
 
-  <!-- PAGE 2 : CONTENU PRINCIPAL -->
-  <main class="main-wrap">
+  <!-- ECRAN 2: CONTINUT MINIMAL -->
+  <div class="app-container">
     
-    <header class="top-bar">
-      <div class="brand-pill">
-        <!-- Am lăsat același logo -->
+    <header class="brand-header">
+      <div class="brand-logo">
         <img src="assets/freecash-logo.webp" alt="Freecash" onerror="this.style.display='none'">
         <span>Freecash</span>
       </div>
     </header>
 
-    <section class="hero">
-      <div class="badge">🔥 Astuce du moment</div>
-      <h1>
-        Ton temps d'écran
-        <span>a enfin de la valeur.</span>
-      </h1>
-      <p>Arrête de scroller dans le vide. Teste des nouveautés, valide des niveaux et récupère des récompenses réelles directement depuis ton canapé.</p>
-    </section>
-
-    <section class="steps-container">
+    <main>
+      <span class="badge-tag">⚡ Rapide & Gratuit</span>
       
-      <div class="step-card">
-        <div class="step-icon">🎮</div>
-        <div class="step-text">
-          <h3>Télécharge & Découvre</h3>
-          <p>Explore le catalogue et installe des pépites avant tout le monde.</p>
+      <h1 class="main-title">
+        Freecash est ta <span>nouvelle méthode</span>.
+      </h1>
+      
+      <p class="main-description">
+        Valorise chaque minute passée sur ton téléphone. Teste de nouvelles applications et profite de tes récompenses en quelques clics.
+      </p>
+
+      <div class="simple-list">
+        <div class="list-item">
+          <span class="emoji">📲</span>
+          <span class="text">Installe une application partenaire</span>
+        </div>
+        <div class="list-item">
+          <span class="emoji">⏱️</span>
+          <span class="text">Joue quelques minutes</span>
+        </div>
+        <div class="list-item">
+          <span class="emoji">🎁</span>
+          <span class="text">Récupère tes avantages immédiatement</span>
         </div>
       </div>
+    </main>
 
-      <div class="step-card">
-        <div class="step-icon">🚀</div>
-        <div class="step-text">
-          <h3>Fais grimper la jauge</h3>
-          <p>Plus tu passes de temps et de niveaux, plus ton solde augmente.</p>
-        </div>
-      </div>
+  </div>
 
-      <div class="step-card">
-        <div class="step-icon">💳</div>
-        <div class="step-text">
-          <h3>Encaisse ton solde</h3>
-          <p>Transfère tes gains instantanément via tes applications préférées.</p>
-        </div>
-      </div>
-
-    </section>
-
-    <section class="tip-box">
-      <h4>Le Hack Ultime 💡</h4>
-      <p>Lance au moins 2 petites missions dès ton arrivée. Ça débloque ton profil et te donne accès aux offres les plus rentables du site.</p>
-    </section>
-
-  </main>
-
-  <!-- BOUTON FIXE EN BAS (CTA) -->
-  <div class="sticky-bottom">
+  <!-- BUTON REDIRECT JOS -->
+  <div class="cta-fixed">
     <a 
       href="https://taprkr.com/r/eyJ0IjoiZnJlZWNhc2gtY3BpIiwidGlkIjoiNzdjOGZlYjc5ODc4NDBjNTJlZDYiLCJ0cyI6MTc4OTU4NjE4NDIyNn0" 
-      class="cta-btn" 
+      class="btn-main" 
       target="_blank" 
       rel="noopener noreferrer"
     >
-      <span class="main-txt">Je lance ma 1ère mission & j'encaisse</span>
-      <span class="sub-txt">Inscription 100% gratuite • Retrait immédiat</span>
+      <span>Essayer la méthode maintenant</span>
+      <small>Accès direct • 100% Gratuit</small>
     </a>
   </div>
 
   <script>
-    // Logica pentru ecranul de start
-    const gateOverlay = document.getElementById("gateOverlay");
-    const btnIos = document.getElementById("btnIos");
-    const btnAndroid = document.getElementById("btnAndroid");
+    const gate = document.getElementById('gate');
+    const btnIos = document.getElementById('btnIos');
+    const btnAndroid = document.getElementById('btnAndroid');
 
-    function removeGate() {
-      gateOverlay.classList.add("hidden");
-      document.body.classList.remove("locked");
-      localStorage.setItem("userDevicePicked", "true");
+    function openMainScreen() {
+      gate.classList.add('hidden');
+      document.body.classList.remove('locked');
+      localStorage.setItem('deviceSelected', 'true');
     }
 
-    btnIos.addEventListener("click", removeGate);
-    btnAndroid.addEventListener("click", removeGate);
+    btnIos.addEventListener('click', openMainScreen);
+    btnAndroid.addEventListener('click", openMainScreen);
 
-    // Verificăm dacă userul a mai fost pe pagină (să nu-i apară ecranul iar)
-    if (localStorage.getItem("userDevicePicked") === "true") {
-      gateOverlay.classList.add("hidden");
-      document.body.classList.remove("locked");
+    if (localStorage.setItem && localStorage.getItem('deviceSelected') === 'true') {
+      gate.classList.add('hidden');
+      document.body.classList.remove('locked');
     }
 
-    // Păstrarea parametrilor UTM/Tracking din URL pe butonul de ieșire
+    // Păstrează parametrii de tracking
     document.addEventListener("DOMContentLoaded", function () {
-      const urlParams = window.location.search;
-      if (!urlParams) return;
+      const search = window.location.search;
+      if (!search) return;
 
-      const links = document.querySelectorAll("a[href^='http']");
-      links.forEach(link => {
-        let currentHref = link.getAttribute("href");
-        if (currentHref.includes("?")) {
-          link.setAttribute("href", currentHref + urlParams.replace("?", "&"));
-        } else {
-          link.setAttribute("href", currentHref + urlParams);
-        }
+      document.querySelectorAll("a[href^='http']").forEach(link => {
+        const href = link.getAttribute("href");
+        link.setAttribute("href", href.includes("?") ? href + search.replace("?", "&") : href + search);
       });
     });
   </script>
