@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Freecash</title>
+  <title>Freecash x TikTok</title>
   <link rel="icon" href="data:," />
 
   <style>
@@ -57,7 +57,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Full black overlay */
+    /* --- NOUA PAGINĂ DE DISPOZITIV --- */
     .device-gate {
       position: fixed;
       inset: 0;
@@ -65,7 +65,7 @@
       display: grid;
       place-items: center;
       padding: 22px;
-      background: #000000;
+      background: #000000; /* Fundal complet negru */
       transition: .25s ease;
     }
 
@@ -79,75 +79,48 @@
     .device-box {
       width: 100%;
       max-width: 360px;
-      padding: 28px 20px 24px;
+      padding: 26px 20px;
       text-align: center;
-      border-radius: 32px;
-      background: #090d0a;
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow);
-    }
-
-    .device-icon {
-      width: 76px;
-      height: 76px;
-      border-radius: 24px;
-      margin: 0 auto 18px;
-      display: grid;
-      place-items: center;
-      font-size: 36px;
-      background: rgba(57,255,136,.12);
-      border: 1px solid rgba(57,255,136,.30);
-      box-shadow: 0 16px 36px rgba(57,255,136,.15);
+      background: #000000;
     }
 
     .device-box h2 {
       font-size: 32px;
       line-height: 1.1;
-      letter-spacing: -.04em;
-      margin-bottom: 10px;
-    }
-
-    .device-box p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-      margin-bottom: 22px;
+      letter-spacing: -.03em;
+      margin-bottom: 25px;
+      color: #ffffff;
     }
 
     .device-actions {
       display: grid;
-      gap: 12px;
+      gap: 15px;
     }
 
-    .device-actions button {
+    .btn-ios {
       border: 0;
-      min-height: 58px;
+      min-height: 56px;
       border-radius: 18px;
       font-size: 16px;
       font-weight: 900;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: transform .1s ease, background .2s ease;
-    }
-
-    .device-actions button:active {
-      transform: scale(0.98);
-    }
-
-    .btn-ios {
-      color: #031108;
-      background: linear-gradient(180deg, #67ffa3, #20d66b);
-      box-shadow: 0 16px 30px rgba(32,214,107,.24);
+      color: #000000;
+      background: #ffffff;
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
     }
 
     .btn-android {
-      color: #f5fff7;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.14);
+      border: 0;
+      min-height: 56px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      color: #000000;
+      background: #3ddc84; /* Verde specific Android */
+      box-shadow: 0 8px 20px rgba(61, 220, 132, 0.2);
     }
+    /* --------------------------------- */
 
     .page {
       width: 100%;
@@ -170,7 +143,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 9px 18px;
+      padding: 9px 13px;
       border-radius: 999px;
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.10);
@@ -533,20 +506,14 @@
 
 <body class="lock">
 
-  <!-- Pagina Neagra - Selectie Dispozitiv -->
   <div class="device-gate" id="deviceGate">
     <div class="device-box">
-      <div class="device-icon">📱</div>
-      <h2>Tu es sur quel type de tel ? ⚡</h2>
-      <p>Choisis ton appareil pour débloquer les meilleures offres du moment !</p>
+      <div style="font-size: 60px; margin-bottom: 15px;">📱</div>
+      <h2>Ce fel de dispozitiv folosești? 🧐</h2>
 
       <div class="device-actions">
-        <button class="btn-ios" id="iosBtn">
-          <span>🍎 iOS (iPhone)</span>
-        </button>
-        <button class="btn-android" id="androidBtn">
-          <span>🤖 Android</span>
-        </button>
+        <button class="btn-ios" id="iosBtn">iOS 🍏</button>
+        <button class="btn-android" id="androidBtn">Android 🤖</button>
       </div>
     </div>
   </div>
@@ -556,7 +523,8 @@
     <header class="top">
       <div class="brand-combo">
         <img src="assets/freecash-logo.webp" alt="Freecash">
-        <span>Freecash</span>
+        <span>×</span>
+        <img src="assets/tiktok-logo.webp" alt="TikTok">
       </div>
     </header>
 
@@ -564,7 +532,7 @@
       <div class="payout-badge">✓ 50 000 000 €+ déjà payés</div>
 
       <h1>
-        Soyez payé pour <span>jouer à des jeux</span>
+        Soyez payé pour <span>scroller sur TikTok</span>
       </h1>
 
       <p class="mini-text">
@@ -575,7 +543,7 @@
         <div class="chip">⚡ Paiement rapide</div>
         <div class="chip">🔒 Compte sécurisé</div>
         <div class="chip">🎁 Bonus quotidiens</div>
-        <div class="chip">🎮 Jouer à des jeux</div>
+        <div class="chip">📱 Scroll TikTok</div>
       </div>
 
       <div class="section-title">Offre recommandée</div>
@@ -583,8 +551,8 @@
       <div class="offer-card">
         <div class="play">▶</div>
         <div>
-          <strong>Gagnez en jouant</strong>
-          <span>Recevez des récompenses en jouant à des jeux et en accomplissant des tâches simples.</span>
+          <strong>Gagnez en scrollant</strong>
+          <span>Recevez des récompenses en découvrant des offres et des tâches simples.</span>
         </div>
         <div class="hot">Hot offer</div>
         <div class="rating"><i>★</i> 5.0</div>
@@ -604,15 +572,15 @@
       <div class="mini-step">
         <span class="big">1</span>
         <span class="icon">＋</span>
-        <strong>Choisissez un jeu</strong>
-        <p>Sélectionnez un jeu disponible dans votre tableau de bord.</p>
+        <strong>Choisissez une offre</strong>
+        <p>Sélectionnez une tâche disponible dans votre tableau de bord.</p>
       </div>
 
       <div class="mini-step">
         <span class="big">2</span>
         <span class="icon">✓</span>
-        <strong>Jouez aux jeux</strong>
-        <p>Débloquez de meilleurs paiements après les premières parties.</p>
+        <strong>Complétez les tâches</strong>
+        <p>Débloquez de meilleurs paiements après les premières offres.</p>
       </div>
 
       <div class="mini-step">
@@ -645,13 +613,13 @@
   <div class="sticky">
     <a
       class="cta"
-      href="https://taprkr.com/r/eyJ0IjoiZnJlZWNhc2gtY3BpIiwidGlkIjoiNzdjOGZlYjc5ODc4NDBjNTJlZDYiLCJ0cyI6MTc4OTU2NDA1Mzc0M30"
+      href="https://taprkr.com/r/eyJ0IjoiZnJlZWNhc2gtY3BpIiwidGlkIjoiNzdjOGZlYjc5ODc4NDBjNTJlZDYiLCJ0cyI6MTc4OTU4MTQyOTM3Nn0"
       target="_blank"
       rel="noopener noreferrer"
     >
       <span>
         Inscrivez-vous & recevez 8 € de bonus →
-        <small>Jouez à des jeux et gagnez des récompenses</small>
+        <small>Scrollez sur TikTok et gagnez des récompenses</small>
       </span>
     </a>
   </div>
@@ -661,21 +629,17 @@
     const iosBtn = document.getElementById("iosBtn");
     const androidBtn = document.getElementById("androidBtn");
 
-    function selectDevice(device) {
+    // Funcția care ascunde pagina de verificare indiferent de butonul apăsat
+    function handleDeviceSelection() {
       deviceGate.classList.add("hide");
       document.body.classList.remove("lock");
-      localStorage.setItem("userDevice", device);
+      localStorage.setItem("deviceSelected", "yes");
     }
 
-    iosBtn.addEventListener("click", function () {
-      selectDevice("ios");
-    });
+    iosBtn.addEventListener("click", handleDeviceSelection);
+    androidBtn.addEventListener("click", handleDeviceSelection);
 
-    androidBtn.addEventListener("click", function () {
-      selectDevice("android");
-    });
-
-    if (localStorage.getItem("userDevice")) {
+    if (localStorage.getItem("deviceSelected") === "yes") {
       deviceGate.classList.add("hide");
       document.body.classList.remove("lock");
     }
