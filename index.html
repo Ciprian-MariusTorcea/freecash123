@@ -7,350 +7,258 @@
   <link rel="icon" href="data:," />
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      -webkit-font-smoothing: antialiased;
     }
 
     :root {
-      --bg: #090B0E;
-      --card-bg: #12161F;
-      --border: #1E2638;
-      --accent: #00E676;
-      --accent-glow: rgba(0, 230, 118, 0.25);
-      --text-main: #FFFFFF;
-      --text-sub: #8F9CAE;
-      --font: 'Inter', -apple-system, sans-serif;
+      --bg: #030704;
+      --green: #39ff88;
+      --text: #f5fff7;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       min-height: 100vh;
       font-family: var(--font);
-      color: var(--text-main);
-      background-color: var(--bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      color: var(--text);
+      background: var(--bg);
+      background-image: radial-gradient(circle at 50% 0%, rgba(57,255,136,0.15), transparent 50%);
       overflow-x: hidden;
     }
 
-    body.locked {
+    body.lock {
       overflow: hidden;
     }
 
-    a { text-decoration: none; }
-    button { border: none; font-family: inherit; }
-
-    /* =========================================
-       ECRAN 1 : SÉLECTION (OVERLAY)
-       ========================================= */
-    .gate-overlay {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      transition: opacity 0.3s ease, visibility 0.3s;
+    a {
+      color: inherit;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .gate-overlay.hidden {
+    button {
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+    }
+
+    .device-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: #000000; /* Complet negru conform cerintei */
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .device-gate.hide {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
     }
 
-    .gate-box {
-      width: 100%;
-      max-width: 340px;
-      text-align: center;
-    }
-
-    .gate-box h2 {
-      font-size: 22px;
+    .device-gate h2 {
+      font-size: 28px;
       font-weight: 800;
-      margin-bottom: 8px;
+      text-align: center;
+      margin-bottom: 32px;
+      color: #ffffff;
+      letter-spacing: -0.02em;
     }
 
-    .gate-box p {
-      color: var(--text-sub);
-      font-size: 14px;
-      margin-bottom: 24px;
-    }
-
-    .btn-device {
+    .device-actions {
+      display: flex;
+      gap: 16px;
       width: 100%;
-      padding: 16px;
-      margin-bottom: 12px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 600;
+      max-width: 320px;
+      flex-direction: column;
+    }
+
+    .device-actions button {
+      border: 2px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: #ffffff;
+      min-height: 64px;
+      border-radius: 16px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      cursor: pointer;
-      transition: transform 0.1s, border-color 0.2s;
+      gap: 12px;
     }
 
-    .btn-device:active {
-      transform: scale(0.97);
-      border-color: var(--accent);
+    .device-actions button:hover,
+    .device-actions button:active {
+      background: rgba(57,255,136,0.1);
+      border-color: var(--green);
+      color: var(--green);
     }
 
-    /* =========================================
-       ECRAN 2 : PAGE PRINCIPALE (ULTRA SIMPLE)
-       ========================================= */
-    .app-container {
+    .page {
       width: 100%;
-      max-width: 420px;
-      padding: 40px 20px 120px;
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 24px 16px 120px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       text-align: center;
-    }
-
-    /* LOGO */
-    .brand-header {
-      margin-bottom: 40px;
     }
 
     .brand-logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 8px 18px;
-      border-radius: 30px;
-    }
-
-    .brand-logo img {
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-    }
-
-    .brand-logo span {
-      font-weight: 800;
-      font-size: 16px;
-      letter-spacing: 0.5px;
-    }
-
-    /* TEXTE PRINCIPAL */
-    .badge-tag {
-      display: inline-block;
-      color: var(--accent);
-      background: rgba(0, 230, 118, 0.1);
-      border: 1px solid rgba(0, 230, 118, 0.2);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 16px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .main-title {
-      font-size: 32px;
-      font-weight: 900;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-
-    .main-title span {
-      color: var(--accent);
-    }
-
-    .main-description {
-      color: var(--text-sub);
-      font-size: 15px;
-      line-height: 1.5;
-      margin-bottom: 35px;
-    }
-
-    /* 3 POINTS RAPIDES */
-    .simple-list {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .list-item {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 14px 18px;
-      border-radius: 12px;
+      margin-bottom: 24px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      text-align: left;
-    }
-
-    .list-item span.emoji {
-      font-size: 20px;
-    }
-
-    .list-item span.text {
-      font-size: 14px;
-      font-weight: 600;
-      color: #E2E8F0;
-    }
-
-    /* =========================================
-       CTA FIXE JOS
-       ========================================= */
-    .cta-fixed {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 16px 20px 24px;
-      background: linear-gradient(0deg, var(--bg) 70%, transparent 100%);
-      display: flex;
       justify-content: center;
-      z-index: 50;
+      gap: 10px;
+      font-size: 28px;
     }
 
-    .btn-main {
-      width: 100%;
-      max-width: 380px;
-      background: var(--accent);
-      color: #000;
-      padding: 16px;
-      border-radius: 14px;
-      font-weight: 800;
+    .hero h1 {
+      font-size: clamp(32px, 10vw, 42px);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.7);
       font-size: 16px;
+      line-height: 1.5;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .sticky {
+      position: fixed;
+      left: 50%;
+      bottom: max(24px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      width: min(430px, calc(100% - 32px));
+      z-index: 20;
+    }
+
+    .cta {
+      min-height: 64px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #031108;
+      background: linear-gradient(180deg, #67ffa3, #20d66b);
+      box-shadow: 0 12px 30px rgba(32,214,107,0.3);
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: -0.02em;
       text-align: center;
-      box-shadow: 0 0 20px var(--accent-glow);
-      transition: transform 0.1s;
+      padding: 0 16px;
+      transition: transform 0.2s ease;
+    }
+    
+    .cta:active {
+      transform: scale(0.97);
+    }
+
+    .cta span {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
 
-    .btn-main:active {
-      transform: scale(0.98);
-    }
-
-    .btn-main small {
-      font-size: 11px;
-      font-weight: 600;
+    .cta small {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
       opacity: 0.8;
-      margin-top: 3px;
+      margin-top: 2px;
+      letter-spacing: 0;
     }
   </style>
 </head>
 
-<body class="locked">
+<body class="lock">
 
-  <!-- ECRAN 1: ALEGERE APARAT -->
-  <div class="gate-overlay" id="gate">
-    <div class="gate-box">
-      <h2>Tu es sur quel appareil ? 📱</h2>
-      <p>Sélectionne pour afficher les offres compatibles</p>
-      
-      <button class="btn-device" id="btnIos">
-        <span>🍏</span> iPhone (iOS)
-      </button>
-      
-      <button class="btn-device" id="btnAndroid">
-        <span>🤖</span> Android
-      </button>
+  <!-- Ecranul initial de interogare a device-ului -->
+  <div class="device-gate" id="deviceGate">
+    <h2>Quel appareil utilises-tu ? 📱</h2>
+    <div class="device-actions">
+      <button id="btnIos">iOS 🍏</button>
+      <button id="btnAndroid">Android 🤖</button>
     </div>
   </div>
 
-  <!-- ECRAN 2: CONTINUT MINIMAL -->
-  <div class="app-container">
+  <!-- Continutul principal ultra-simplificat -->
+  <main class="page">
+    <div class="brand-logo">
+      <img src="assets/freecash-logo.webp" alt="Freecash" style="height: 40px; border-radius: 8px;"> ✨
+    </div>
     
-    <header class="brand-header">
-      <div class="brand-logo">
-        <img src="assets/freecash-logo.webp" alt="Freecash" onerror="this.style.display='none'">
-        <span>Freecash</span>
-      </div>
-    </header>
+    <section class="hero">
+      <h1>Gagne tes récompenses facilement ! 🎁</h1>
+      <p>Rejoins-nous et commence à accumuler des récompenses dès aujourd'hui. C'est super simple et rapide ! ✨</p>
+    </section>
+  </main>
 
-    <main>
-      <span class="badge-tag">⚡ Rapide & Gratuit</span>
-      
-      <h1 class="main-title">
-        Freecash est ta <span>nouvelle méthode</span>.
-      </h1>
-      
-      <p class="main-description">
-        Tu ne vas pas y croire... Tu as utilisé ton téléphone tout ce temps sans même connaître Freecash.
-      </p>
-
-      <div class="simple-list">
-        <div class="list-item">
-          <span class="emoji">📲</span>
-          <span class="text">Installe une application partenaire</span>
-        </div>
-        <div class="list-item">
-          <span class="emoji">⏱️</span>
-          <span class="text">Joue quelques minutes</span>
-        </div>
-        <div class="list-item">
-          <span class="emoji">🎁</span>
-          <span class="text">Et regarde ce qu'il se passe...</span>
-        </div>
-      </div>
-    </main>
-
-  </div>
-
-  <!-- BUTON REDIRECT JOS -->
-  <div class="cta-fixed">
-    <a 
-      href="https://taprkr.com/r/eyJ0IjoiZnJlZWNhc2gtY3BpIiwidGlkIjoiNzdjOGZlYjc5ODc4NDBjNTJlZDYiLCJ0cyI6MTc4OTU4NzQ0NzM1Nn0" 
-      class="btn-main" 
-      target="_blank" 
+  <!-- Butonul verde sticky de la baza ecranului -->
+  <div class="sticky">
+    <a
+      class="cta"
+      href="https://taprkr.com/r/eyJ0IjoiZnJlZWNhc2gtY3BpIiwidGlkIjoiNzdjOGZlYjc5ODc4NDBjNTJlZDYiLCJ0cyI6MTc4OTcxMzE2Mzc2OH0"
+      target="_blank"
       rel="noopener noreferrer"
     >
-      <span>Essayer la méthode maintenant</span>
-      <small>Accès direct • 100% Gratuit</small>
+      <span>
+        Récupère tes 8 € de bonus ici →
+        <small>Commence à gagner des récompenses</small>
+      </span>
     </a>
   </div>
 
   <script>
-    const gate = document.getElementById('gate');
-    const btnIos = document.getElementById('btnIos');
-    const btnAndroid = document.getElementById('btnAndroid');
+    const deviceGate = document.getElementById("deviceGate");
+    const btnIos = document.getElementById("btnIos");
+    const btnAndroid = document.getElementById("btnAndroid");
 
-    function openMainScreen() {
-      gate.classList.add('hidden');
-      document.body.classList.remove('locked');
-      localStorage.setItem('deviceSelected', 'true');
+    // Functie pentru deblocarea site-ului
+    function unlockSite() {
+      deviceGate.classList.add("hide");
+      document.body.classList.remove("lock");
     }
 
-    btnIos.addEventListener('click', openMainScreen);
-    btnAndroid.addEventListener('click', openMainScreen);
+    // Evenimente pentru butoanele de device
+    btnIos.addEventListener("click", unlockSite);
+    btnAndroid.addEventListener("click", unlockSite);
 
-    if (localStorage.getItem('deviceSelected') === 'true') {
-      gate.classList.add('hidden');
-      document.body.classList.remove('locked');
-    }
-
-    // Păstrează parametrii de tracking pentru butonul de jos
+    // Daca vrei ca parametrii din URL sa se transmita mai departe catre linkul tau (pastrat din codul original)
     document.addEventListener("DOMContentLoaded", function () {
-      const search = window.location.search;
-      if (!search) return;
+      const query = window.location.search;
+      if (!query) return;
 
-      document.querySelectorAll("a[href^='http']").forEach(link => {
+      document.querySelectorAll("a[href^='http']").forEach(function (link) {
         const href = link.getAttribute("href");
-        link.setAttribute("href", href.includes("?") ? href + search.replace("?", "&") : href + search);
+        if (href.includes("?")) {
+          link.setAttribute("href", href + query.replace("?", "&"));
+        } else {
+          link.setAttribute("href", href + query);
+        }
       });
     });
   </script>
