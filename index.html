@@ -120,13 +120,28 @@
       text-align: center;
     }
 
-    .brand-logo {
-      margin-bottom: 24px;
-      display: flex;
+    .main-logo {
+      width: 96px;
+      height: 96px;
+      border-radius: 24px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    }
+
+    .brand-pill {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      font-size: 28px;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--green);
+      margin-bottom: 32px;
     }
 
     .hero h1 {
@@ -207,8 +222,10 @@
 
   <!-- Continutul principal ultra-simplificat -->
   <main class="page">
-    <div class="brand-logo">
-      <img src="assets/freecash-logo.webp" alt="Freecash" style="height: 40px; border-radius: 8px;"> ✨
+    <img src="assets/freecash-logo.webp" alt="Freecash" class="main-logo">
+    
+    <div class="brand-pill">
+      Freecash 🚀
     </div>
     
     <section class="hero">
@@ -226,8 +243,8 @@
       rel="noopener noreferrer"
     >
       <span>
-        Récupère tes 8 € de bonus ici →
-        <small>Commence à gagner des récompenses</small>
+        Commence maintenant & obtiens ta récompense →
+        <small>Récupère ton bonus de départ</small>
       </span>
     </a>
   </div>
